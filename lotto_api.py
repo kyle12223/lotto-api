@@ -12,7 +12,12 @@ def lotto_data():
         "isAjax": "true"
     }
     resp = requests.post(url, data=payload)
-    data = resp.json().get("data", {}).get("drawDetails", {})
+    headers = {
+    "User-Agent": "Mozilla/5.0",
+    "Content-Type": "application/x-www-form-urlencoded"
+}
+
+resp = requests.post(url, data=payload, headers=headers)
 
     draws = [{
         "date": data.get("drawDate"),
