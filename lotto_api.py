@@ -1,35 +1,26 @@
 from flask import Flask, jsonify
-import requests
 
 app = Flask(__name__)
 
-@app.route("/lotto-data")
-def lotto_data():
-    url = "https://www.nationallottery.co.za/index.php?task=results.redirectPageURL&Itemid=265&option=com_weaver&controller=lotto-history"
-    payload = {
-        "gameName": "LOTTO",
-        "drawNumber": "",
-        "isAjax": "true"
+# Your manually added old Lotto data
+lotto_data = [
+    {
+        "date": "2025-07-06",
+        "numbers": [5, 12, 23, 34, 41, 47]
+    },
+    {
+        "date": "2025-07-03",
+        "numbers": [9, 15, 27, 33, 38, 44]
+    },
+    {
+        "date": "2025-06-30",
+        "numbers": [2, 14, 18, 21, 36, 49]
     }
-    resp = requests.post(url, data=payload)
-    headers = {
-    "User-Agent": "Mozilla/5.0",
-    "Content-Type": "application/x-www-form-urlencoded"
-}
+]
 
-resp = requests.post(url, data=payload, headers=headers)
+@app.route("/lotto-data", methods=["GET"])
+def get_lotto_data():
+    return jsonify(lotto_data)
 
-    draws = [{
-        "date": data.get("drawDate"),
-        "numbers": [
-            data.get("ball1"), data.get("ball2"),
-            data.get("ball3"), data.get("ball4"),
-            data.get("ball5"), data.get("ball6")
-        ]
-    }]
-    return jsonify(draws)
-
-if __name__ == "__main__":
-   import os
-port = int(os.environ.get("PORT", 10000))
-app.run(host="0.0.0.0", port=port)
+if name == "__main__":
+    app.run(host="0.0.0.0", port=8000)
